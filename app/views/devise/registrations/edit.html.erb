@@ -1,0 +1,74 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name%>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :current_password %><br />
+    <%= f.password_field :current_password, autocomplete: "current-password" %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :phone %><br />
+    <%= f.telephone_field :phone %>  </div>
+
+  <div class="field">
+  <%= f.label :image %>
+  <%= f.file_field :image %>
+  </div>
+
+  <b>Address:</b>
+  <ul>
+    <%= f.fields_for :address, resource.build_address do |address_form| %>
+      <li>
+       <%= address_form.label :address1 %>
+       <%= address_form.text_field :address1 %>
+
+       <%= address_form.label :address2 %>
+       <%= address_form.text_field :address2 %>
+
+       <%= address_form.label :city %>
+       <%= address_form.text_field :city %>
+
+       <%= address_form.label :state %>
+       <%= address_form.text_field :state %>
+
+       <%= address_form.label :country %>
+       <%= address_form.text_field :country %>
+
+       <%= address_form.label :postal_code %>
+       <%= address_form.text_field :postal_code %>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="actions">
+    <%= f.submit "Sign up", class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>

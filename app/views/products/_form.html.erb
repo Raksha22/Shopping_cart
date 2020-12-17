@@ -1,0 +1,48 @@
+<%= form_with(model: product, local: true) do |form| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+      <% product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <b>
+  <div class="lable">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="lable">
+    <%= form.label :price %>
+    <%= form.text_field :price%>
+  </div>
+
+
+  <div class="lable">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="lable">
+  <%= form.label :image %>
+  <%= form.file_field :image %>
+  </div></br>
+
+
+  <% Color.all.each do |color| %>
+    <%= form.fields_for :assignments do |f| %>
+      <%= f.number_field :quantity %>
+      <%= f.collection_select(:color_id, Color.all, :id, :color) %>
+
+    <% end %>
+  </b>
+  <% end %>
+  
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

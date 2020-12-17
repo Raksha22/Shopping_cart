@@ -1,0 +1,55 @@
+<div class="col-sm-6">
+<% @line_items.each do |item| %>
+    <div class="my-4">
+    <h6><%= item.product.title %></h6>
+    <h5><b><%= item.product.price %>$</b></h5>
+
+
+    <%= form_for item, remote: true do |f| %>
+
+
+        
+        <%= f.hidden_field :product_id, :value => item.product.id %>
+        <%= f.number_field :quantity, :value => item.quantity.to_i %>
+        <%= f.submit "Update Card "%>
+
+        <%= link_to "Remove Items", line_item_path(item), method: :delete, remote: true, :class => 'btn btn-info' %>
+
+    <% end %>
+    <h2>Subtotal: <%= item.total %>$</h2>
+
+<% end %>
+
+
+
+
+<h3>Your current card value has a subtotal of: <%= current_order.subtotal %></h3>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+Place Order
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     Your total order amount is $<%= current_order.subtotal %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <%= link_to 'Confirm Order', shops_path, data: { confirm: 'Order Confirmed Successfully' }, class: "btn btn-primary" %>
+       
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

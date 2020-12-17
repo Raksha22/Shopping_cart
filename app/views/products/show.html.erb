@@ -1,0 +1,30 @@
+<p>
+  <strong>Title:</strong>
+  <%= @product.title %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @product.price %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @product.description %>
+</p>
+
+<% @product.assignments.each do |a| %>
+  <p>
+  <%= a.color.color %> - <%= a.quantity %>
+  </p>
+<% end %>
+<% if @product.image.attached? %>
+   <image src="<%=(url_for(@product.image))%>">
+<% end %></br>
+
+<%= link_to 'Back', shops_path, class: 'btn btn-dark'%>
+
+
+<% if has_role?(:seller) %>
+<%= link_to 'Edit', edit_product_path(@product), class: 'btn btn-primary' %> |
+<% end %>
