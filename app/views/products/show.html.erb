@@ -13,11 +13,6 @@
   <%= @product.description %>
 </p>
 
-<% @product.assignments.each do |a| %>
-  <p>
-  <%= a.color.color %> - <%= a.quantity %>
-  </p>
-<% end %>
 <% if @product.image.attached? %>
    <image src="<%=(url_for(@product.image))%>">
 <% end %></br>

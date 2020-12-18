@@ -46,23 +46,6 @@ ActiveRecord::Schema.define(version: 2020_12_15_114545) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
-  create_table "assignments", force: :cascade do |t|
-    t.integer "color_id"
-    t.integer "product_id"
-    t.integer "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["color_id"], name: "index_assignments_on_color_id"
-    t.index ["product_id"], name: "index_assignments_on_product_id"
-  end
-
-  create_table "colors", force: :cascade do |t|
-    t.string "color"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "quantity"
-  end
-
   create_table "line_items", force: :cascade do |t|
     t.integer "user_id"
     t.integer "quantity"
