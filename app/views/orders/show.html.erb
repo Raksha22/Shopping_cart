@@ -1,0 +1,21 @@
+<body style="background-color: #d9d9d9;">
+<div class="container">
+  <h3><b>Delivery Address Details</b></h3>
+  <p>do you want to proceed order with address displayed below? If it is correct, click t0 "Deliver to this address" button Or you enter a <%= link_to "new address", edit_user_registration_path %></p> 
+    <div class="card" style="width: 54rem;">
+      <div class="card-body", style= "color: black">
+        <ul style="list-style: none;">
+        
+          <h4 class="card-title"><b><%= current_user.name %></b></h4>
+          <li class="card-text"><%= current_user.address.address1 %></li>
+          <li class="card-text"><%= current_user.address.address2 %></li>
+          <li class="card-text"><%= current_user.address.city %></li>
+          <li class="card-text"><%= current_user.address.state %></li>
+          <li class="card-text"><%= current_user.address.postal_code %></li>
+          <li class="card-text"><%= current_user.address.country %></li>
+        </ul>
+        <%= link_to 'Deliver to this address', payment_option_path, :class => 'btn btn-lg btn-block btn-dark'%>
+      </div>
+    </div>
+  </div>
+</body>

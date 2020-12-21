@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_15_114545) do
+ActiveRecord::Schema.define(version: 2020_12_18_134914) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -46,13 +46,29 @@ ActiveRecord::Schema.define(version: 2020_12_15_114545) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
+  create_table "assignments", force: :cascade do |t|
+    t.integer "color_id"
+    t.integer "product_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["color_id"], name: "index_assignments_on_color_id"
+    t.index ["product_id"], name: "index_assignments_on_product_id"
+  end
+
+  create_table "colors", force: :cascade do |t|
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "quantity"
+  end
+
   create_table "line_items", force: :cascade do |t|
     t.integer "user_id"
     t.integer "quantity"
     t.integer "product_id"
     t.integer "order_id"
-    t.decimal "total"
-    t.decimal "unit_price"
+    t.decimal "price"
     t.integer "canceled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -60,10 +76,9 @@ ActiveRecord::Schema.define(version: 2020_12_15_114545) do
 
   create_table "orders", force: :cascade do |t|
     t.integer "user_id"
-    t.decimal "subtotal"
-    t.decimal "total"
-    t.decimal "subquantity"
-    t.string "status"
+    t.decimal "total_price"
+    t.integer "total_quantity"
+    t.string "status", default: "0"
     t.string "payment_mode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -94,10 +109,14 @@ ActiveRecord::Schema.define(version: 2020_12_15_114545) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.integer "phone"
+    t.bigint "phone"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

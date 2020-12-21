@@ -1,0 +1,23 @@
+<div class="container">
+  <% if current_user.orders.present? %>
+    <h3>You have Placed Order Successfully</h3>
+    <table class = "table table-striped table-bordered" >
+      <thead class="table-secondary">
+        <tr>
+          <th>Total Quantity</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders.each do |order| %>
+          <tr>
+            <td><%= order.total_quantity %></td>
+            <td> <span>Rs</span> <%= order.total_price %></td>
+          </tr>
+         <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <%= render plain: 'You have no order yet' %>
+  <% end %>
+</div>

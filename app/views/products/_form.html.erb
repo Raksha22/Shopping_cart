@@ -28,19 +28,9 @@
   </div>
 
   <div class="lable">
-  <%= form.label :image %>
-  <%= form.file_field :image %>
+  <%= form.label :images %>
+  <%= form.file_field :images, multiple: true %>
   </div></br>
-
-
-  <% Color.all.each do |color| %>
-    <%= form.fields_for :assignments do |f| %>
-      <%= f.number_field :quantity %>
-      <%= f.collection_select(:color_id, Color.all, :id, :color) %>
-
-    <% end %>
-  </b>
-  <% end %>
   
   <div class="actions">
     <%= form.submit %>

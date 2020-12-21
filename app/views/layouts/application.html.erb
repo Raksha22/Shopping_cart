@@ -17,7 +17,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">MY SHOPPING APP</a>
   
-  <%= link_to 'Home', shops_path%>
+  <%= link_to 'Home', products_path%>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -32,7 +32,9 @@
       </ul>
       <li class="navbar-text float-right">
 <% if user_signed_in? %>
-  Logged in as <strong><%= current_user.email %><%= image_tag current_user.image,size: "30x30", :class => 'ml-2' %></strong>
+<%= link_to "#{current_user.latest_order.line_items.size} item with a value of #{current_user.latest_order.total_price}", carts_path , :class => "button btn btn-secondary mr-2 " %>
+
+  Logged in as <strong><%= current_user.email %><%= image_tag current_user.image,size: "30x30", :class => 'ml-2'  %></strong>.
   <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link btn btn-success' %> |
   <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link btn btn-primary'  %>
 <% else %>

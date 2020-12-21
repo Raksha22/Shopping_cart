@@ -1,0 +1,36 @@
+<div class="container">
+  <h1><b>Cart Products</b></h1>
+  <div class="col-md-20 col-md-offset-12" >
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if current_user.latest_order.line_items.size>0 %>
+          <% current_user.latest_order.line_items.each do |line_item| %>
+          <tr>
+            <td><%= line_item.product.title %></td>
+            <td><%= line_item.price %></td>
+            <td><%= line_item.quantity %></td>
+            <td>
+              <%= form_for([line_item.order, line_item]) do |f| %>
+                <%= f.hidden_field :product_id, value: line_item.product.id %>
+                <%= f.number_field :quantity, :value => line_item.quantity.to_i %>
+                <%= f.submit "Update Quantity", class: 'btn btn-dark mt-2' %>
+                  <%= link_to 'Destroy', [line_item.order,line_item], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger mt-2' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'Proceed to Order', order_path(current_user.latest_order), class: 'btn btn-success mt-2' %>
+
+</div>

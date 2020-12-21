@@ -1,0 +1,13 @@
+<div class="container">
+  <h3><b> Select Payment mode</b></h3>
+  <%= form_for(:order, url: orders_place_order_path , local: true) do |form| %>
+    <div class="field">
+      <%=form.radio_button(:payment_mode, 'COD') %>
+      <%= form.label :payment_mode, "COD" %>
+    </div>
+    <div class="actions">
+      <%= form.submit 'Place order' ,data:
+      {confirm: "Are you sure you want to place order?" }, :class => 'btn btn-warning' %>
+    </div>
+  <% end %>
+</div>
