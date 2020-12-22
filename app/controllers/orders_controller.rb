@@ -10,6 +10,12 @@ class OrdersController < ApplicationController
     def payment
     end
 
+    def revenue
+      @price_revenue = Order.joins(line_items: :product).where("products.user_id = ? " , current_user.id).sum("products.price*quantity")
+
+    end
+   
+    
     def place_order
       @order = Order.new(order_params) 
       @total_quantity = LineItem.where(user_id: current_user.id).sum('quantity')
