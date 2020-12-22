@@ -3,6 +3,7 @@
   <head>
     <title>OnlineShop</title>
     
+    
     <link rel= "stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -17,8 +18,14 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">MY SHOPPING APP</a>
   
-  <%= link_to 'Home', products_path%>
+  <div style= "padding-right:10px"><%= link_to 'Home', root_path%></div>
+  <% if user_signed_in?  %> 
   <%= link_to 'My orders', orders_path %>
+  <% end %>
+
+  <% if user_signed_in? && current_user.has_role?(:seller) %> 
+  <%= link_to 'My Revenue', revenue_page_path %>
+  <% end %>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -32,11 +39,10 @@
       </li>
       </ul>
       <li class="navbar-text float-right">
-<% if user_signed_in? %>
-<%= link_to "#{current_user.latest_order.line_items.size} item with a value of #{current_user.latest_order.total_price}", carts_path , :class => "button btn btn-secondary mr-2 " %>
+<% if user_signed_in? %> 
+<%= link_to "item #{current_user.latest_order.line_items.size} value #{current_user.latest_order.total_price}", carts_path , :class => "button btn btn-secondary mr-2 " %>
 <% if current_user.image.attached? %>
-
-   Logged in as <strong><%= current_user.email %><%= image_tag current_user.image,size: "30x30", :class => 'ml-2'  %></strong>.
+  Logged in as <strong><%= current_user.email %><%= image_tag current_user.image,size: "30x30", :class => 'ml-2'  %></strong>.
 <% end %>
   <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link btn btn-success' %> |
   <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link btn btn-primary'  %>
@@ -48,6 +54,21 @@
 
     
   </div>
+
+</nav>
+<nav class="navbar navbar-dark bg-dark">
+<%= form_tag(search_page_path, :method => "get",   
+            class: 'navbar-form navbar-left') do %>  
+            <div class="input-group">  
+              <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>  
+              <div class="input-group-btn">  
+              <%= button_tag "Search", :class => 'btn btn-outline-success glyphicon glyphicon-search',:name => nil%>  
+              </div> 
+            </div>  
+
+
+<% end %>
+  
 </nav>
 
 <% if notice %>
