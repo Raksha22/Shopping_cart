@@ -1,25 +1,14 @@
 <div "container" class=text-left>
+
 <h1 class="mb-0.5"><b>Products</b></h1>
     <% if user_signed_in? && current_user.has_role?(:seller) %>
       <%= link_to "New product", new_product_path, :class => 'btn btn-outline-primary mb-0.5' %>
     <% end %>
-
-    </div>
-
 <table class="table table-striped" style="width: 1400px">
-  <thead>
-    <div><tr>
-
-
-      <th colspan="1"></th>
-    </tr></div>
-  </thead>
-
   <tbody>
     <% @products.each do |product| %>
       <tr>
-      <div class="row">
-        <div class="col-sm-1">
+      <div class="col">
         <td><b><%= product.title %></b></td>
         <td><%= product.price %>$</td>
         <td><%= product.description %></td>
@@ -35,31 +24,30 @@
         
     
      <% end %>
-     <p>
-                <% if user_signed_in? && current_user.has_role?(:buyer) %> 
+            <p>       
+                  <% if user_signed_in?  %> 
                   <%= form_for(:line_item, url: order_line_items_path(current_user.latest_order), local: true ) do |form| %>
                   <%= form.hidden_field :product_id, value: product.id %>
                   <td> 
-                    <%= form.number_field :quantity, value: 1, min: 1 %>
+                   <%= form.number_field :quantity, value: 1, min: 1, size: 5%>
                   </td>
                   <td>
                     <%= form.submit 'Add to cart', class: 'btn btn-outline-info mt-2' %>
-                  </td> 
-                <% end %>
-                <% else%>
+                  </td>
+                  <% end %>
+                  <% else%>
                   <td>
                     <%= link_to 'Add to Cart', new_user_session_path, class: 'btn btn-info ' %>
                   </td>
-                <% end %>
-              </p>
+                  <% end %>
 
+              </p>
       </tr>
-    <% end %>
+
+    
+      <% end %>
   </tbody>
 </table>
 
 <br>
-<% if user_signed_in? && current_user.has_role?(:seller) %>
-  <tb><%= link_to 'New Product', new_product_path, class: "btn btn-success" %></td>
-<% end %>
 <%= will_paginate @products %>
