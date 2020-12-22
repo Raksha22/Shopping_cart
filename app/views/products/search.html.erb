@@ -1,0 +1,65 @@
+<div "container" class=text-left>
+<nav class="navbar navbar-dark bg-dark">
+<%= form_tag(search_page_path, :method => "get",   
+            class: 'navbar-form navbar-left') do %>  
+            <div class="input-group">  
+              <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>  
+              <div class="input-group-btn">  
+              <%= button_tag "Search", :class => 'btn btn-outline-success glyphicon glyphicon-search',:name => nil%>  
+              </div> 
+            </div>  
+          <% end %>
+  
+</nav>
+<h1 class="mb-0.5"><b>Products</b></h1>
+    <% if user_signed_in? && current_user.has_role?(:seller) %>
+      <%= link_to "New product", new_product_path, :class => 'btn btn-outline-primary mb-0.5' %>
+    <% end %>
+<table class="table table-striped" style="width: 1400px">
+    <tbody>
+    <% @products.each do |product| %>
+      <tr>
+      <div class="row">
+        <div class="col-sm-1">
+        <td><b><%= product.title %></b></td>
+        <td><%= product.price %>$</td>
+        <td><%= product.description %></td>
+        <td><% product.images.each do |image| %>
+          <%= image_tag image ,size: "286x220" ,:class => 'class="card-img-top"'%> 
+      <% end %></td>        
+    <% if user_signed_in? && current_user.has_role?(:seller) %>
+        <td><%= link_to 'Show', product, class: "btn btn-primary"%></td>
+        <td><%= link_to 'Edit', edit_product_path(product), class: "btn btn-info"%></td>
+        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></td>
+    <% else %>
+        <td><%= link_to 'Show', product, class: "btn btn-primary"%></td>
+        
+    
+     <% end %>
+     <p>
+                <% if user_signed_in? && current_user.has_role?(:buyer) %> 
+                  <%= form_for(:line_item, url: order_line_items_path(current_user.latest_order), local: true ) do |form| %>
+                  <%= form.hidden_field :product_id, value: product.id %>
+                  <td> 
+                    <%= form.number_field :quantity, value: 1, min: 1 %>
+                  </td>
+                  <td>
+                    <%= form.submit 'Add to cart', class: 'btn btn-outline-info mt-2' %>
+                  </td> 
+                <% end %>
+                <% else%>
+                  <td>
+                    <%= link_to 'Add to Cart', new_user_session_path, class: 'btn btn-info ' %>
+                  </td>
+                <% end %>
+              </p>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% if user_signed_in? && current_user.has_role?(:seller) %>
+  <tb><%= link_to 'New Product', new_product_path, class: "btn btn-success" %></td>
+<% end %>

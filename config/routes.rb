@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :products
   get '/search' => 'products#search', :as => 'search_page'
   get '/payment' => 'orders#payment', :as => 'payment_option'
+
+  get '/revenue' => 'orders#revenue', :as => 'revenue_page'
   post 'orders/place_order'
  root 'products#index'
  resources :orders do
