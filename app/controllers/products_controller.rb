@@ -6,7 +6,16 @@ class ProductsController < ApplicationController
     @products = Product.paginate(page: params[:page], per_page: 4).order("created_at DESC")
 
   end
-
+  
+  def search
+    if params[:search].blank?
+      redirect_to(products_path, alert: "Empty field!") and return
+    else
+      keyword = params[:search]
+      @products = Product.where("title LIKE ?", "%#{keyword}%")
+    end
+  end
+  
   def show
     @product = Product.find(params[:id])
   end
@@ -17,6 +26,7 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
+    @product.user_id =current_user.id
  
     if @product.save
       redirect_to @product
