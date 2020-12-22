@@ -2,6 +2,8 @@ class Order < ApplicationRecord
     belongs_to :user
     enum status: [:cart, :payment, :deliver, :shipped, :cancelled]
     has_many :line_items, dependent: :destroy
+    has_many :products, through: :line_items
+
     before_save :set_total_price
   
     def total_price
